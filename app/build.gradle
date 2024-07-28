@@ -6,8 +6,9 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'org.springframework.boot' version '3.2.3' // Use the latest stable version
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 repositories {
@@ -15,26 +16,34 @@ repositories {
     mavenCentral()
 }
 
-implementation libs.guava
-implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '4.1.1'
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-implementation 'org.springframework.boot:spring-boot-starter-security'
-implementation 'org.modelmapper:modelmapper:3.2.0'
-implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
-implementation group: 'org.projectlombok', name:'lombok', version: "$lombokVersion"
-compileOnly group: 'org.projectlombok', name:'lombok', version: "$lombokVersion"
-annotationProcessor group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
-testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
-testImplementation group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
-implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
-implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
-implementation 'org.springframework.boot:spring-boot-starter'
-testImplementation libs.junit
+ext {
+    lombokVersion = "1.18.30"
+    set('springCloudVersion', "2023.0.0")
+
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+
+dependencies {
+    implementation libs.guava
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.modelmapper:modelmapper:3.2.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    testImplementation libs.junit
 }
 
 
